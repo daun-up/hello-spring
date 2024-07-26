@@ -1,34 +1,22 @@
 package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
-import hello.hello_spring.repository.MemberRepository;
 import hello.hello_spring.repository.MemoryMemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
-
-class MemberServiceTest {
-    MemberService memberService;
-    MemoryMemberRepository memberRepository;
-
-    @BeforeEach // 직접 객체 생성
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-
-    @AfterEach // 테스트가 끝난 후 저장소를 다 지움 -> 순서 상관이 없어짐
-    public void afterEach() {
-        memberRepository.clearStore();
-    }
-
+@SpringBootTest
+@Transactional
+class MemberServiceIntegrationTest {
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;
     @Test
     void 회원가입() { // 테스트 코드는 한글로 이름 적어도 됨 ㅎㅎ
         //given - 이 데이터를 기반으로
